@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Input = styled.input`
   width: 200px;
@@ -13,8 +14,19 @@ class InputTodo extends React.Component {
     return(
       <>
         <Input value={this.props.val} onChange={this.props.change} />
+        <p>{this.props.test}</p>
       </>
     )
   }
 }
+InputTodo.propTypes = {
+  val: PropTypes.string,
+  test: PropTypes.string.isRequired,
+}
+
+InputTodo.defaultProps ={
+  val: 'test todo',
+  test: 'AAAAA'
+}
+
 export default InputTodo;

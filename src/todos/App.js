@@ -16,6 +16,7 @@ class TodoApp extends React.Component {
     super(props);
     this.state = {
       todos: [],
+      id: 1,
       work: ""
     }
   }
@@ -33,8 +34,30 @@ class TodoApp extends React.Component {
 
   addTodo = () => {
     this.setState({
-      todos:[...this.state.todos, this.state.work],
+      id: this.state.id + 1,
+      todos:[...this.state.todos, {
+        id_work: this.state.id,
+        name_work: this.state.work,
+        done: false
+      }],
       work: ""
+    })
+  }
+
+  removeTodo = (id) => {
+    // lay ra nhung cong viec ko bi xoa
+    let newWorks = this.state.todos.filter(item => item.id_work !== id);
+    this.setState({
+      ...this.state,
+      todos: newWorks
+    })
+  }
+
+  finishTodo = (id) => {
+    let newTodos = this.state.todos.map(item => item.id_work === id ? {...item, done: !item.done} : item);
+    this.setState({
+      ...this.state,
+      todos: newTodos
     })
   }
 
@@ -45,7 +68,11 @@ class TodoApp extends React.Component {
         <DivContainer>
           <InputTodo val={this.state.work} change={this.changeWork} />
           <ButtonTodo add={this.addTodo}>Add</ButtonTodo>
-          <ListTask/>
+          <ListTask
+            listWorks={this.state.todos}
+            del={this.removeTodo}
+            finish={this.finishTodo}
+          />
         </DivContainer>
       </>
     )

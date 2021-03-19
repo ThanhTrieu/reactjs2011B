@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Button = styled.button`
   width: 100px;
@@ -18,4 +19,9 @@ class ButtonTodo extends Component {
     )
   }
 }
+ButtonTodo.propTypes = {
+  add: PropTypes.func.isRequired,
+  children: PropTypes.node
+}
+
 export default ButtonTodo;
