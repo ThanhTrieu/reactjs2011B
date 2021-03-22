@@ -7,7 +7,8 @@ class AppLifeCycle extends React.Component {
     super(props);
     // khai bao state o day
     this.state = {
-      count: 0
+      count: 0,
+      show: true
     }
     // phuong thuc nay se chay dau tien va duy nhat mot lan trong phan mounting
     console.log('constructor cua AppLifeCycle da chay');
@@ -23,12 +24,23 @@ class AppLifeCycle extends React.Component {
     console.log('componentDidMount da chay')
   }
 
+  showHideComponent = () => {
+    this.setState({
+      show: !this.state.show
+    })
+  }
+
   render() {
     console.log('render mounting da chay');
     return(
       <>
         <h1>This is app lifecycle</h1>
-        <ChildrenApp/>
+        {this.state.show ? <ChildrenApp count={this.state.count}/>: null}
+        
+        <button
+          type="button"
+          onClick={() => this.showHideComponent() }
+        > Hide Component</button>
       </>
     )
   }
