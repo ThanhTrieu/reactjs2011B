@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import { Input, Row, Col } from 'antd';
 
 const { Search } = Input;
 
-const InputSearchMovie = () => {
+const InputSearchMovie = (props) => {
   return (
     <>
       <Row style={{ marginTop: '5px'}}>
@@ -10,12 +11,15 @@ const InputSearchMovie = () => {
           <Search
             placeholder=" name's movie... " enterButton="Search"
             size="large"
-            loading
-            onSearch={val => console.log(val)}
+            loading={props.loading}
+            onSearch={val => props.search(val)}
           />
         </Col>
       </Row>
     </>
   )
+}
+InputSearchMovie.propTypes = {
+  search: PropTypes.func.isRequired
 }
 export default InputSearchMovie;
