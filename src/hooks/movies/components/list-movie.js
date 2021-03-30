@@ -8,7 +8,7 @@ const ListMovies = (props) => {
       <Row>
         <Col span={20} offset={2}>
           <Row style={{ marginTop: '30px' }} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-            {props.listMovies.results.map((item, index) => (
+            {props.listMovies.map((item, index) => (
               <Col key={index} className="gutter-row" span={6}>
                 <Card
                   hoverable

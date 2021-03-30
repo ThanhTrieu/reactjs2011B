@@ -8,14 +8,21 @@ const AppMovie = () => {
   const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState([]);
   const [keyword, setKeyword] = useState("");
+  const [totalItems, setTotalItems] = useState(0);
+  const [page, setPage] = useState(1);
 
-  const searchMovieByKey = async (nameMovie, page = 1) => {
+  const searchMovieByKey = async (nameMovie, p = 1) => {
     if(nameMovie !== ''){
       await setKeyword(nameMovie);
+      await setPage(p);
+      
       // call api tim kiem phim 
       await setLoading(true);
-      const dataMovie = await searchMovies(nameMovie, page);
-      await setMovies(dataMovie);
+      const dataMovie = await searchMovies(nameMovie, p);
+      if(dataMovie){
+        await setMovies(dataMovie.results);
+        await setTotalItems(dataMovie.total_results);
+      }
       await setLoading(false);
     }
   }
@@ -32,13 +39,22 @@ const AppMovie = () => {
         listMovies={movies}
         loading={loading}
       />
-      <Row>
-        <Col span={20} offset={2}>
-          <div style={{ textAlign: 'center', marginTop: '30px'}}>
-            <Pagination defaultCurrent={1} total={50} />
-          </div>
-        </Col>
-      </Row>
+
+      {movies.length !== 0 && (
+        <Row>
+          <Col span={20} offset={2}>
+            <div style={{ textAlign: 'center', margin: '30px 0px'}}>
+              <Pagination
+                pageSize={20}
+                current={page}
+                total={totalItems}
+                showSizeChanger={false}
+                onChange={ pages => searchMovieByKey(keyword, pages)}
+              />
+            </div>
+          </Col>
+        </Row>
+      )}
     </>
   )
 }
