@@ -1,6 +1,6 @@
 import { Pagination, Row, Col } from 'antd';
 
-const PaginationMovies = () => {
+const PaginationMovies = (props) => {
   return(
     <>
       <Row>
@@ -8,9 +8,10 @@ const PaginationMovies = () => {
             <div style={{ textAlign: 'center', margin: '30px 0px'}}>
               <Pagination
                 pageSize={20}
-                current={1}
-                total={50}
+                current={props.currentPage}
+                total={props.totalItems}
                 showSizeChanger={false}
+                onChange={ p => props.change(p)}
               />
             </div>
           </Col>

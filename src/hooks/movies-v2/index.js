@@ -24,10 +24,14 @@ const AppMovies = () => {
       setLoading(false);
     }
     getDataFromApi();
-  },[language]);
+  },[language, page]);
 
   const changeLanguage = (lang = 'en-US') => {
     setLanguage(lang);
+  }
+
+  const changePaging = (p = 1) => {
+    setPage(p);
   }
 
   //console.log(moives);
@@ -44,7 +48,7 @@ const AppMovies = () => {
           />
 
           { 
-            moives.length > 0 && <PaginationMovie/>
+            moives.length > 0 && !loading && <PaginationMovie totalItems={totalItems} currentPage={page} change={changePaging} />
           }
         </Col>
       </Row>
