@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react';
 import ListMovies from './components/list-movies';
 import PaginationMovie from './components/pagination';
 import SwitchLanguage from './components/switch-language';
+import HeaderMovie from './components/header';
+import UserProvider from './context/user-provider';
 import { popularityMovies } from './services/api';
 import { Row , Col } from 'antd';
+
 
 const AppMovies = () => {
   const [loading, setLoading] = useState(false);
@@ -39,6 +42,11 @@ const AppMovies = () => {
     <>
       <Row>
         <Col span={20} offset={2}>
+        
+          <UserProvider>
+            <HeaderMovie/>
+          </UserProvider>
+
           <SwitchLanguage
             change={changeLanguage}
           />
