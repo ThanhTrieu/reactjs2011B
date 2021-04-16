@@ -1,31 +1,68 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
+import { Skeleton } from 'antd';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
+import { helpers } from '../helpers/common';
 
-import SearchPage from '../pages/search/index';
-import PopularPage from '../pages/popular/index';
-import LoginPage from '../pages/login/index';
+const SearchPage = lazy(() => import('../pages/search/index'));
+const PopularPage = lazy(() => import('../pages/popular/index'));
+const LoginPage = lazy(() => import('../pages/login/index'));
+const UpcomingPage = lazy(() => import('../pages/upcoming/index'));
+
+const PrivateRouter = ({ children, ...rest }) => {
+  const auth = helpers.isAuthenticated();
+  return (
+    <Route
+      {...rest}
+      render={({ location }) => auth 
+              ? ( children )
+              : (<Redirect to={{ pathname: "/login", state: { from: location } }} />)
+            }
+    />
+  )
+}
+
+const IsLoginRouter = ({ children, ...rest }) => {
+  const auth = helpers.isAuthenticated();
+  return (
+    <Route
+      {...rest}
+      render={({ location }) => auth 
+              ? (<Redirect to={{ pathname: "/", state: { from: location } }} />)
+              : (children)
+            }
+    />
+  )
+}
 
 const RouterMovie = () => {
   return (
     <Router>
-      <Switch>
-        <Route path="/" exact>
-          <SearchPage/>
-        </Route>
-        <Route path="/search">
-          <SearchPage/>
-        </Route>
-        <Route path="/popular-movie">
-          <PopularPage/>
-        </Route>
-        <Route path="/login">
-          <LoginPage/>
-        </Route>
-      </Switch>
+      <Suspense fallback={<Skeleton active />}>
+        <Switch>
+
+          <PrivateRouter path="/" exact>
+            <SearchPage/>
+          </PrivateRouter>
+          <PrivateRouter path="/search">
+            <SearchPage/>
+          </PrivateRouter>
+          <PrivateRouter path="/popular-movie">
+            <PopularPage/>
+          </PrivateRouter>
+          <PrivateRouter path="/up-coming">
+            <UpcomingPage/>
+          </PrivateRouter>
+
+          <IsLoginRouter path="/login">
+            <LoginPage/>
+          </IsLoginRouter>
+        </Switch>
+      </Suspense>
     </Router>
   )
 }

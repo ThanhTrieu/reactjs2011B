@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import { Row, Col, Form, Input, Button } from 'antd';
 import { useHistory } from "react-router-dom";
+import { api } from '../../services/api';
+import { helpers } from '../../helpers/common';
 
 const layout = {
   labelCol: {
@@ -17,12 +20,24 @@ const tailLayout = {
 };
 
 const LoginPage = () => {
+  const [errorLogin, setErrorLogin] = useState("");
   const history = useHistory();
 
   const onFinish = (values) => {
-    console.log('Success:', values);
-    if(values.username === 'admin' && values.password === '123'){
-      history.push("/");
+    // console.log('Success:', values);
+    // if(values.username === 'admin' && values.password === '123') {
+    //   history.push("/");
+    // }
+    let user = values.username;
+    let pass = values.password;
+    let token = api.checkUserLogin(user, pass);
+    if(token !== null){
+      setErrorLogin("");
+      // luu token nay lai
+      helpers.saveToken(token);
+      history.push('/');
+    } else {
+      setErrorLogin("account invalid");
     }
   };
 
@@ -34,6 +49,9 @@ const LoginPage = () => {
     <>
       <Row>
         <Col span={12} offset={6}>
+          <h2 style={{ textAlign: 'center', color: 'red' }}>
+            { errorLogin }
+          </h2>
           <Form
             {...layout}
             name="basic"
