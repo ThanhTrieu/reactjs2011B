@@ -62,7 +62,7 @@ const DetailMovie = () => {
         </Col>
         <Col span={8}>
           {detailMovie.images.backdrops.map((item, index) => (
-            <Image src={`https://image.tmdb.org/t/p/w300${item.file_path}`} />
+            <Image key={index} src={`https://image.tmdb.org/t/p/w300${item.file_path}`} />
           ))}
         </Col>
       </Row>
