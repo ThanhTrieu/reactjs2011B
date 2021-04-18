@@ -12,6 +12,7 @@ const SearchPage = lazy(() => import('../pages/search/index'));
 const PopularPage = lazy(() => import('../pages/popular/index'));
 const LoginPage = lazy(() => import('../pages/login/index'));
 const UpcomingPage = lazy(() => import('../pages/upcoming/index'));
+const DetailPage = lazy(() => import('../pages/detail/index'));
 
 const PrivateRouter = ({ children, ...rest }) => {
   const auth = helpers.isAuthenticated();
@@ -56,6 +57,9 @@ const RouterMovie = () => {
           </PrivateRouter>
           <PrivateRouter path="/up-coming">
             <UpcomingPage/>
+          </PrivateRouter>
+          <PrivateRouter path="/movie-detail/:slug~:id">
+            <DetailPage/>
           </PrivateRouter>
 
           <IsLoginRouter path="/login">
