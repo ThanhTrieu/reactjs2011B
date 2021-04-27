@@ -8,15 +8,21 @@ const { Search } = Input;
 const InputAdd = () => {
   const id = useSelector(state => state.todo.idTodo);
   const dispatch = useDispatch();
+
+  const add = (name) => {
+    if(name.length > 0){
+      dispatch(addWork(name, id));
+    }
+  }
   return (
     <Row style={{ margin: '30px 0px' }}>
       <Col span={12} offset={6}>
         <Search
           placeholder="name of work ... "
-          allowClear
           enterButton="Add"
           size="large"
-          onSearch={val => dispatch(addWork(val, id))}
+          onSearch={val => add(val)}
+          allowClear={true}
         />
       </Col>
     </Row>

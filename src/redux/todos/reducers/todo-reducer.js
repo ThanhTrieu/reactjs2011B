@@ -19,6 +19,24 @@ export const todoReducer = (state = initialState, action) => {
           }]
         }
       }
+    case types.DELETE_WORK:
+      const id = action.payload.id;
+      const newListWork = state.listWorks.filter(item => item.id !== id);
+      return {
+        ...state,
+        ...{
+          listWorks: newListWork
+        }
+      }
+    case types.DONE_WORK: 
+      const idDone = action.payload.id;
+      const newWorks = state.listWorks.map(item => {
+        return item.id === idDone ? {...item, done: !item.done} : item;
+      });
+      return {
+        ...state,
+        ...{ listWorks: newWorks }
+      }
     default:
       return state;
   }
